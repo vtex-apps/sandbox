@@ -25,11 +25,23 @@ function getExistingStyles() {
 
 function init () {
   let contentInitialized = false
+
+  Object.defineProperty(document, 'cookie', {
+    get: () => (window as any).__cookie,
+    set: (value: string) => {
+      window.parent.postMessage({type: 'iframeCookieSet', value}, '*')
+    },
+  })
+
   window.addEventListener('message', function(event: any) {
-    const {styles, props, content} = event.data
+    const {styles, props, content, cookie} = event.data
     // Add props to window
     if (props) {
       (window as any).props = JSON.parse(props)
+    }
+    // Mount cookie
+    if (cookie) {
+      (window as any).__cookie = cookie
     }
     // Mount block content
     if (content && !contentInitialized) {
@@ -64,7 +76,8 @@ const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '
     if (iframeEl.current && iframeEl.current.contentWindow) {
       const styles = getExistingStyles()
       const safeProps = stringify(props)
-      iframeEl.current.contentWindow.postMessage({props: safeProps, content, styles}, '*')
+      const cookie = document.cookie
+      iframeEl.current.contentWindow.postMessage({props: safeProps, content, styles, cookie}, '*')
     }
   })
 
