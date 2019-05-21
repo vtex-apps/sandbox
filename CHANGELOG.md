@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Use an injected `init()` function to establish a postMessage communication channel
+- Inject styles from parent
+
 ## [0.0.1] - 2019-05-21
 
-- **Component** Create the VTEX Store Component _IO Base App_
+- **Component** Initial implementation
