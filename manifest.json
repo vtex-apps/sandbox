@@ -1,0 +1,17 @@
+{
+  "vendor": "vtex",
+  "name": "sandbox",
+  "version": "0.0.0",
+  "title": "IO Sandbox Component",
+  "description": "IO Sandbox component",
+  "defaultLocale": "pt-BR",
+  "builders": {
+    "messages": "1.x",
+    "store": "0.x",
+    "react": "3.x"
+  },
+  "mustUpdateAt": "2019-04-02",
+  "scripts": {
+    "postreleasy": "vtex publish --verbose"
+  }
+}

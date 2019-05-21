@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "lib": ["es2017", "dom"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "target": "es2017",
+    "skipLibCheck": true,
+    "strict": true,
+    "types": ["node", "jest", "graphql"]
+  },
+  "typeAcquisition": {
+    "enable": false
+  },
+  "include": [
+    "./typings/*.d.ts",
+    "./**/*.tsx",
+    "components/withImage.d.ts",
+    "Footer.js"
+  ],
+  "exclude": ["node_modules"]
+}

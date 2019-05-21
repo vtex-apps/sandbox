@@ -1,0 +1,10 @@
+{
+  "editor.sandbox.title": "Sandbox",
+  "editor.sandbox.description": "A sandbox component that renders HTML content inside a secure iframe",
+  "editor.sandbox.content.title": "Content HTML",
+  "editor.sandbox.content.description": "Any valid HTML. May include scripts. The props passed to this block are available in `window.props`.",
+  "editor.sandbox.width.title": "Width",
+  "editor.sandbox.width.description": "Iframe width (e.g. `400px`)",
+  "editor.sandbox.height.title": "Height",
+  "editor.sandbox.height.description": "Iframe height (e.g. `20px`)"
+}
