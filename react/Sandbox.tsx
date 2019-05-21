@@ -1,14 +1,82 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { NoSSR } from 'vtex.render-runtime'
 import stringify from 'safe-json-stringify'
 
+interface StyleContainer {
+  href?: string
+  rules?: string[]
+}
+
+// Create objects representing styles, either with href or the actual rules, to be passed to the iframe.
+function getExistingStyles() {
+  const styles: StyleContainer[] = []
+  for (let i = 0; i < document.styleSheets.length; i++) {
+    const stylesheet: any = document.styleSheets.item(i)
+    if (stylesheet !== null) {
+      if (stylesheet.href) {
+        styles.push({href: stylesheet.href})
+      } else {
+        styles.push({rules: Array.prototype.map.call(stylesheet.rules, (r: any) => r.cssText) as string[] })
+      }
+    }
+  }
+  return styles
+}
+
+function init () {
+  let contentInitialized = false
+  window.addEventListener('message', function(event: any) {
+    const {styles, props, content} = event.data
+    // Add props to window
+    if (props) {
+      (window as any).props = JSON.parse(props)
+    }
+    // Mount block content
+    if (content && !contentInitialized) {
+      contentInitialized = true
+      document.write(content)
+    }
+    // Add styles
+    if (styles && Array.isArray(styles)) {
+      styles.forEach((style: StyleContainer) => {
+        if (style.href) {
+          const link = document.createElement('link')
+          link.href = style.href
+          link.type = 'text/css'
+          link.rel = 'stylesheet'
+          document.head.appendChild(link)
+        } else if (style.rules) {
+          const sheet = document.createElement('style')
+          sheet.innerHTML = style.rules.join('\n')
+          document.head.appendChild(sheet)
+        }
+      })
+    }
+  })
+}
+
 const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, ...props }) => {
   delete (props as any).runtime
-  const propsScript = `<script>window.props = ${stringify(props)}</script>`
-  const injected = encodeURIComponent(propsScript + content)
+  const injected = encodeURIComponent(`<script>${init.toString()};init();</script>`)
+  const iframeEl: any = useRef(null)
+
+  useEffect(() => {
+    if (iframeEl.current && iframeEl.current.contentWindow) {
+      const styles = getExistingStyles()
+      const safeProps = stringify(props)
+      iframeEl.current.contentWindow.postMessage({props: safeProps, content, styles}, '*')
+    }
+  })
+
   return (
     <NoSSR>
-      <iframe frameBorder={0} style={{width, height}} sandbox="allow-scripts" className="vtex-sandbox-iframe" src={"data:text/html,"+injected} >
+      <iframe
+        ref={iframeEl}
+        frameBorder={0}
+        style={{width, height}}
+        sandbox="allow-scripts"
+        className="vtex-sandbox-iframe"
+        src={"data:text/html,"+injected}>
       </iframe>
     </NoSSR>
   )
