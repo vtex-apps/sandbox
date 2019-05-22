@@ -33,7 +33,7 @@ function init () {
     },
   })
 
-  window.addEventListener('message', function(event: any) {
+  window.addEventListener('message', function(event: MessageEvent) {
     const {styles, props, content, cookie} = event.data
     // Add props to window
     if (props) {
