@@ -7,6 +7,11 @@ interface StyleContainer {
   rules?: string[]
 }
 
+interface IframeOptions {
+  allowCookies: boolean,
+  cookieEventType: string,
+}
+
 // Create objects representing styles, either with href or the actual rules, to be passed to the iframe.
 function getExistingStyles() {
   const styles: StyleContainer[] = []
@@ -23,15 +28,26 @@ function getExistingStyles() {
   return styles
 }
 
-function init () {
+const appId = process.env.VTEX_APP_ID
+const type = `${appId}:iframeCookieSet`
+
+window.addEventListener('message', function(event: MessageEvent) {
+  if (event.data && event.data.type === type) {
+    document.cookie = event.data.value
+  }
+})
+
+function init (options: IframeOptions) {
   let contentInitialized = false
 
-  Object.defineProperty(document, 'cookie', {
-    get: () => (window as any).__cookie,
-    set: (value: string) => {
-      window.parent.postMessage({type: 'iframeCookieSet', value}, '*')
-    },
-  })
+  if (options.allowCookies) {
+    Object.defineProperty(document, 'cookie', {
+      get: () => (window as any).__cookie,
+      set: (value: string) => {
+        window.parent.postMessage({type: options.cookieEventType, value}, '*')
+      },
+    })
+  }
 
   window.addEventListener('message', function(event: MessageEvent) {
     const {styles, props, content, cookie} = event.data
@@ -40,7 +56,7 @@ function init () {
       (window as any).props = JSON.parse(props)
     }
     // Mount cookie
-    if (cookie) {
+    if (options.allowCookies && cookie) {
       (window as any).__cookie = cookie
     }
     // Mount block content
@@ -67,16 +83,16 @@ function init () {
   })
 }
 
-const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, ...props }) => {
+const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, allowCookies, ...props }) => {
   delete (props as any).runtime
-  const injected = encodeURIComponent(`<script>${init.toString()};init();</script>`)
+  const injected = encodeURIComponent(`<script>${init.toString()};init(${stringify({allowCookies, cookieEventType: type})});</script>`)
   const iframeEl = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
     if (iframeEl.current && iframeEl.current.contentWindow) {
       const styles = getExistingStyles()
       const safeProps = stringify(props)
-      const cookie = document.cookie
+      const cookie = allowCookies && document.cookie
       iframeEl.current.contentWindow.postMessage({props: safeProps, content, styles, cookie}, '*')
     }
   })
@@ -99,6 +115,7 @@ interface SandboxProps {
   content?: string
   width?: string
   height?: string
+  allowCookies?: boolean
 }
 
 Sandbox.schema = {
@@ -123,6 +140,12 @@ Sandbox.schema = {
       description: 'editor.sandbox.content.description',
       type: 'string',
       default: null,
+    },
+    allowCookies: {
+      title: 'editor.sandbox.allowCookies.title',
+      description: 'editor.sandbox.allowCookies.description',
+      type: 'boolean',
+      default: false,
     },
   },
 }

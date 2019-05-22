@@ -6,5 +6,7 @@
   "editor.sandbox.width.title": "Largura",
   "editor.sandbox.width.description": "Largura do Iframe (e.g. `400px`)",
   "editor.sandbox.height.title": "Altura",
-  "editor.sandbox.height.description": "Altura do Iframe (e.g. `20px`)"
+  "editor.sandbox.height.description": "Altura do Iframe (e.g. `20px`)",
+  "editor.sandbox.allowCookies.title": "Permitir cookies",
+  "editor.sandbox.allowCookies.description": "Permitir que scripts no iframe leiam e escrevam cookies"
 }
