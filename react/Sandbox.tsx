@@ -70,7 +70,7 @@ function init () {
 const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, ...props }) => {
   delete (props as any).runtime
   const injected = encodeURIComponent(`<script>${init.toString()};init();</script>`)
-  const iframeEl: any = useRef(null)
+  const iframeEl = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
     if (iframeEl.current && iframeEl.current.contentWindow) {
