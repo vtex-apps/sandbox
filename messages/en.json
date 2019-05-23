@@ -6,5 +6,7 @@
   "editor.sandbox.width.title": "Width",
   "editor.sandbox.width.description": "Iframe width (e.g. `400px`)",
   "editor.sandbox.height.title": "Height",
-  "editor.sandbox.height.description": "Iframe height (e.g. `20px`)"
+  "editor.sandbox.height.description": "Iframe height (e.g. `20px`)",
+  "editor.sandbox.allowCookies.title": "Allow cookies",
+  "editor.sandbox.allowCookies.description": "Allow scripts in iframe to read and write cookies"
 }
