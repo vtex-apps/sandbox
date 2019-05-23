@@ -44,6 +44,11 @@ function init (options: IframeOptions) {
     Object.defineProperty(document, 'cookie', {
       get: () => (window as any).__cookie,
       set: (value: string) => {
+        if (!value) {
+          return
+        }
+        const [clean] = value.split(';');
+        (window as any).__cookie = `${clean}; ` + (window as any).__cookie
         window.parent.postMessage({type: options.cookieEventType, value}, '*')
       },
     })
