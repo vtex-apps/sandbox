@@ -69,7 +69,9 @@ function init (options: IframeOptions) {
     // Mount block content
     if (content && !contentInitialized) {
       contentInitialized = true
-      document.write(content)
+      var range = document.createRange()
+      range.setStart(document.body, 0)
+      document.body.appendChild(range.createContextualFragment(content))
     }
     // Add styles
     if (styles && Array.isArray(styles)) {
@@ -90,7 +92,7 @@ function init (options: IframeOptions) {
   })
 }
 
-const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, allowCookies, allowStyles, iframeRef, ...props }) => {
+const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, allowCookies, allowStyles, iframeRef, hidden, ...props }) => {
   delete (props as any).runtime
   const injected = encodeURIComponent(`<script>${init.toString()};init(${stringify({allowCookies, cookieEventType: type})});</script>`)
   const ref = iframeRef || useRef<HTMLIFrameElement>(null)
@@ -113,9 +115,10 @@ const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '
       <iframe
         ref={ref}
         frameBorder={0}
-        style={{width, height}}
+        style={hidden ? {display: 'none'} : {width, height}}
         sandbox="allow-scripts"
         className="vtex-sandbox-iframe"
+        hidden={hidden}
         src={"data:text/html,"+injected}>
       </iframe>
     </NoSSR>
@@ -129,6 +132,7 @@ interface SandboxProps {
   allowCookies?: boolean
   allowStyles?: boolean
   iframeRef?: RefObject<HTMLIFrameElement>
+  hidden?: boolean
 }
 
 Sandbox.schema = {
