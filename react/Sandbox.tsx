@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, RefObject } from 'react'
 import { NoSSR, canUseDOM } from 'vtex.render-runtime'
 import stringify from 'safe-json-stringify'
 
@@ -90,28 +90,28 @@ function init (options: IframeOptions) {
   })
 }
 
-const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, allowCookies, allowStyles, ...props }) => {
+const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, allowCookies, allowStyles, iframeRef, ...props }) => {
   delete (props as any).runtime
   const injected = encodeURIComponent(`<script>${init.toString()};init(${stringify({allowCookies, cookieEventType: type})});</script>`)
-  const iframeEl = useRef<HTMLIFrameElement>(null)
+  const ref = iframeRef || useRef<HTMLIFrameElement>(null)
 
   if (allowStyles === undefined) {
     allowStyles = true
   }
 
   useEffect(() => {
-    if (iframeEl.current && iframeEl.current.contentWindow) {
+    if (ref.current && ref.current.contentWindow) {
       const styles = allowStyles && getExistingStyles()
       const safeProps = stringify(props)
       const cookie = allowCookies && document.cookie
-      iframeEl.current.contentWindow.postMessage({props: safeProps, content, styles, cookie}, '*')
+      ref.current.contentWindow.postMessage({props: safeProps, content, styles, cookie}, '*')
     }
   })
 
   return (
     <NoSSR>
       <iframe
-        ref={iframeEl}
+        ref={ref}
         frameBorder={0}
         style={{width, height}}
         sandbox="allow-scripts"
@@ -128,6 +128,7 @@ interface SandboxProps {
   height?: string
   allowCookies?: boolean
   allowStyles?: boolean
+  iframeRef?: RefObject<HTMLIFrameElement>
 }
 
 Sandbox.schema = {
