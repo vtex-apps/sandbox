@@ -90,14 +90,18 @@ function init (options: IframeOptions) {
   })
 }
 
-const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, allowCookies, ...props }) => {
+const Sandbox: StorefrontFunctionComponent<SandboxProps> = ({ content, width = '100%', height, allowCookies, allowStyles, ...props }) => {
   delete (props as any).runtime
   const injected = encodeURIComponent(`<script>${init.toString()};init(${stringify({allowCookies, cookieEventType: type})});</script>`)
   const iframeEl = useRef<HTMLIFrameElement>(null)
 
+  if (allowStyles === undefined) {
+    allowStyles = true
+  }
+
   useEffect(() => {
     if (iframeEl.current && iframeEl.current.contentWindow) {
-      const styles = getExistingStyles()
+      const styles = allowStyles && getExistingStyles()
       const safeProps = stringify(props)
       const cookie = allowCookies && document.cookie
       iframeEl.current.contentWindow.postMessage({props: safeProps, content, styles, cookie}, '*')
@@ -123,6 +127,7 @@ interface SandboxProps {
   width?: string
   height?: string
   allowCookies?: boolean
+  allowStyles?: boolean
 }
 
 Sandbox.schema = {
