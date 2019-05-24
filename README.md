@@ -5,18 +5,29 @@ Allows mounting arbitrary HTML content in extension points from the comfort and 
 ### Example block
 
 ```
-  "sandbox#test": {
+  "sandbox#product": {
     "props": {
       "width": "200px",
       "height": "60px",
-      "content": "<script src='https://unpkg.com/jquery@3.3.1/dist/jquery.min.js'></script><h1 id='test'>initial</h1><script>$('#test').html(props.productQuery.product.items[0].sellers[0].commertialOffer.ListPrice); console.log(document.cookie)</script>",
+      "initialContent": "<script src='https://unpkg.com/jquery@3.3.1/dist/jquery.min.js'></script><h1 id='test'>initial</h1><script>function render(){ current = window.props.productQuery.product.items.findIndex(function(p){ return p.itemId === window.props.query.skuId }); if (current === -1) {current = 0}; $('#test').html(window.props.productQuery.product.items[current].sellers[0].commertialOffer.ListPrice)}; window.addEventListener('message', function(e){ console.log('got message in product', e.data, window.props); render();});</script>",
       "allowCookies": true
     }
+  },
+  "sandbox#home": {
+    "props": {
+      "width": "200px",
+      "height": "60px",
+      "initialContent": "<h1 id='test'>home</h1><script>console.log(props, document.cookie); window.addEventListener('message', function(e){ console.log('got message in home', window.props) });</script>",
+      "allowCookies": true
+    }
+  },
+  "store.home": {
+    "blocks": ["carousel#home", "shelf#home", "sandbox#home"]
   },
   "store.product": {
     "blocks": [
       "product-details#default",
-      "sandbox#test"
+      "sandbox#product"
     ]
   },
 ```
