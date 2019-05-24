@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { NoSSR } from 'vtex.render-runtime'
+import { NoSSR, canUseDOM } from 'vtex.render-runtime'
 import stringify from 'safe-json-stringify'
 
 interface StyleContainer {
@@ -31,11 +31,13 @@ function getExistingStyles() {
 const appId = process.env.VTEX_APP_ID
 const type = `${appId}:iframeCookieSet`
 
-window.addEventListener('message', function(event: MessageEvent) {
-  if (event.data && event.data.type === type) {
-    document.cookie = event.data.value
-  }
-})
+if (canUseDOM) {
+  window.addEventListener('message', function(event: MessageEvent) {
+    if (event.data && event.data.type === type) {
+      document.cookie = event.data.value
+    }
+  })
+}
 
 function init (options: IframeOptions) {
   let contentInitialized = false
