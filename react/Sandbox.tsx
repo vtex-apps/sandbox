@@ -64,7 +64,7 @@ function initIframe (options: IframeOptions) {
         if (!value) {
           return
         }
-        const [clean] = value.split(';');
+        const clean = value.split(';')[0];
         (window as any).__cookie = `${clean}; ` + (window as any).__cookie
         window.parent.postMessage({type: cookieEventType, value}, '*')
       },
