@@ -9,6 +9,7 @@ interface StyleContainer {
 
 interface IframeOptions {
   cookieEventType: string
+  propsEventType: string
   cookie: string
   styles: StyleContainer[]
 }
@@ -40,18 +41,19 @@ function getExistingStyles() {
 }
 
 const appId = process.env.VTEX_APP_ID
-const type = `${appId}:iframeCookieSet`
+const cookieEventType = `${appId}:iframeCookieSet`
+const propsEventType = `${appId}:props`
 
 if (canUseDOM) {
   window.addEventListener('message', function(event: MessageEvent) {
-    if (event.data && event.data.type === type) {
+    if (event.data && event.data.type === cookieEventType) {
       document.cookie = event.data.value
     }
   })
 }
 
 function initIframe (options: IframeOptions) {
-  const {styles, cookie, cookieEventType} = options
+  const {styles, cookie, cookieEventType, propsEventType} = options
 
   // Mount cookie
   if (cookie) {
@@ -87,10 +89,9 @@ function initIframe (options: IframeOptions) {
   }
 
   window.addEventListener('message', function(event: MessageEvent) {
-    const {props} = event.data
     // Add props to window
-    if (props) {
-      (window as any).props = JSON.parse(props)
+    if (event.data && event.data.type === propsEventType) {
+      (window as any).props = JSON.parse(event.data.props)
     }
   })
 }
@@ -150,7 +151,7 @@ export default class Sandbox extends PureComponent<Props> {
     };(${
       initIframe.toString()
     })(${
-      stringify({cookieEventType: type, styles, cookie})
+      stringify({cookieEventType, propsEventType, styles, cookie})
     });</script></head><body>${initialContent}</body></html>`
   }
 
@@ -188,7 +189,7 @@ export default class Sandbox extends PureComponent<Props> {
     const ref = this.iframeRef
     if (ref.current && ref.current.contentWindow) {
       const props = this.safeProps
-      ref.current.contentWindow.postMessage({props}, '*')
+      ref.current.contentWindow.postMessage({type: propsEventType, props}, '*')
     }
   }
 }
