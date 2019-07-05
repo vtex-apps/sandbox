@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.0] - 2019-07-05
 ### Added
 - `sandbox.product` a Sandbox that receives the Product context as props. That way it's possible to use sandbox inside a `flex-layout` and still have the product context.
 
