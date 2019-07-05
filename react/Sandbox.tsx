@@ -100,31 +100,31 @@ export default class Sandbox extends PureComponent<Props> {
   public iframeRef: RefObject<HTMLIFrameElement>
 
   public schema = {
-    title: 'editor.sandbox.title',
-    description: 'editor.sandbox.description',
+    title: 'admin/editor.sandbox.title',
+    description: 'admin/editor.sandbox.description',
     type: 'object',
     properties: {
       width: {
-        title: 'editor.sandbox.width.title',
-        description: 'editor.sandbox.width.description',
+        title: 'admin/editor.sandbox.width.title',
+        description: 'admin/editor.sandbox.width.description',
         type: 'string',
         default: null,
       },
       height: {
-        title: 'editor.sandbox.height.title',
-        description: 'editor.sandbox.height.description',
+        title: 'admin/editor.sandbox.height.title',
+        description: 'admin/editor.sandbox.height.description',
         type: 'string',
         default: null,
       },
       initialContent: {
-        title: 'editor.sandbox.initialContent.title',
-        description: 'editor.sandbox.initialContent.description',
+        title: 'admin/editor.sandbox.initialContent.title',
+        description: 'admin/editor.sandbox.initialContent.description',
         type: 'string',
         default: null,
       },
       allowCookies: {
-        title: 'editor.sandbox.allowCookies.title',
-        description: 'editor.sandbox.allowCookies.description',
+        title: 'admin/editor.sandbox.allowCookies.title',
+        description: 'admin/editor.sandbox.allowCookies.description',
         type: 'boolean',
         default: false,
       },
