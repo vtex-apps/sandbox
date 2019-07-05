@@ -6,6 +6,7 @@
   "dependencies": {
     "@vtex/css-handles": "^1.0.0",
     "classnames": "^2.2.6",
+    "iframe-resizer": "^4.1.1",
     "ramda": "^0.26.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.7",
     "@types/graphql": "^14.2.0",
+    "@types/iframe-resizer": "^3.5.7",
     "@types/jest": "^24.0.11",
     "@types/node": "^11.13.0",
     "@types/prop-types": "^15.7.0",
@@ -28,6 +30,6 @@
     "eslint-config-vtex": "^10.1.0",
     "prettier": "^1.16.4",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "3.3.4000"
+    "typescript": "3.5.2"
   }
 }
