@@ -11,6 +11,9 @@
     "react": "3.x"
   },
   "mustUpdateAt": "2019-04-02",
+  "dependencies": {
+    "vtex.product-context": "0.x"
+  },
   "scripts": {
     "postreleasy": "vtex publish --verbose"
   },
