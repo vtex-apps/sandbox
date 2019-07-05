@@ -3,7 +3,6 @@
   "admin/editor.sandbox.description": "Un componente sandbox que renderiza contenido HTML dentro de un iframe seguro",
   "admin/editor.sandbox.initialContent.title": "HTML de contenido inicial",
   "admin/editor.sandbox.initialContent.description": "Cualquier HTML válido. Puede incluir scripts. Las propiedades pasadas a este bloque están disponibles en `window.props`.",
-  "admin/editor.sandbox.autoResizeWidth.title": "Cambiar automáticamente el ancho",
   "admin/editor.sandbox.width.title": "Largura",
   "admin/editor.sandbox.width.description": "Largura do Iframe (e.g. `400px`)",
   "admin/editor.sandbox.height.title": "Altura",

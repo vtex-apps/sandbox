@@ -1,6 +1,12 @@
-import React, { RefObject, PureComponent, createRef } from 'react'
+import React, { Component } from 'react'
 import { NoSSR, canUseDOM } from 'vtex.render-runtime'
 import stringify from 'safe-json-stringify'
+
+// Avoid breaking SSR by loading this only in the client side
+let iFrameResizer: any = null
+if (canUseDOM) {
+  iFrameResizer = require('iframe-resizer/js/iframeResizer')
+}
 
 interface StyleContainer {
   href?: string
@@ -20,7 +26,6 @@ interface Props {
   height?: string
   allowCookies?: boolean
   allowStyles?: boolean
-  iframeRef?: RefObject<HTMLIFrameElement>
   hidden?: boolean
 }
 
@@ -96,8 +101,8 @@ function initIframe (options: IframeOptions) {
   })
 }
 
-export default class Sandbox extends PureComponent<Props> {
-  public iframeRef: RefObject<HTMLIFrameElement>
+export default class Sandbox extends Component<Props> {
+  public iframeRef: HTMLIFrameElement | null = null
 
   public schema = {
     title: 'admin/editor.sandbox.title',
@@ -138,7 +143,6 @@ export default class Sandbox extends PureComponent<Props> {
     
     const { initialContent, allowCookies, allowStyles: allowStylesProp } = props
     const allowStyles = allowStylesProp === undefined ? true : allowStylesProp
-    this.iframeRef = props.iframeRef || createRef<HTMLIFrameElement>()
     
     if (!canUseDOM) {
       return
@@ -152,7 +156,7 @@ export default class Sandbox extends PureComponent<Props> {
       initIframe.toString()
     })(${
       stringify({cookieEventType, propsEventType, styles, cookie})
-    });</script></head><body>${initialContent}</body></html>`
+    });</script><script type="text/javascript" src="https://unpkg.com/iframe-resizer@4.1.1/js/iframeResizer.contentWindow.js"></script></head><body>${initialContent}</body></html>`
   }
 
   public componentDidMount() {
@@ -163,12 +167,23 @@ export default class Sandbox extends PureComponent<Props> {
     this.updateIframe()
   }
 
+  setRef = (element: HTMLIFrameElement | null) => {
+    if (!element) {
+      return
+    }
+
+    this.iframeRef = element
+    iFrameResizer({
+      checkOrigin: false,
+    }, this.iframeRef)
+  }
+
   public render() {
     const { width = '100%', height, hidden } = this.props
     return (
       <NoSSR>
         <iframe
-          ref={this.iframeRef}
+          ref={this.setRef}
           frameBorder={0}
           style={hidden ? {display: 'none'} : {width, height}}
           sandbox="allow-scripts"
@@ -186,10 +201,9 @@ export default class Sandbox extends PureComponent<Props> {
   }
 
   private updateIframe() {
-    const ref = this.iframeRef
-    if (ref.current && ref.current.contentWindow) {
+    if (this.iframeRef && this.iframeRef.contentWindow) {
       const props = this.safeProps
-      ref.current.contentWindow.postMessage({type: propsEventType, props}, '*')
+      this.iframeRef.contentWindow.postMessage({type: propsEventType, props}, '*')
     }
   }
 }
