@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.1] - 2019-08-29
+
 ## [0.2.0] - 2019-07-05
 ### Added
 - `sandbox.product` a Sandbox that receives the Product context as props. That way it's possible to use sandbox inside a `flex-layout` and still have the product context.
