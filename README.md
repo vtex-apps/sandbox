@@ -5,11 +5,19 @@ Allows mounting arbitrary HTML content in extension points from the comfort and 
 ### Example block
 
 ```
-  "sandbox#product": {
+  "sandbox.product": {
     "props": {
       "width": "200px",
       "height": "60px",
       "initialContent": "<script src='https://unpkg.com/jquery@3.3.1/dist/jquery.min.js'></script><h1 id='test'>initial</h1><script>function render(){ current = window.props.productQuery.product.items.findIndex(function(p){ return p.itemId === window.props.query.skuId }); if (current === -1) {current = 0}; $('#test').html(window.props.productQuery.product.items[current].sellers[0].commertialOffer.ListPrice)}; window.addEventListener('message', function(e){ console.log('got message in product', e.data, window.props); render();});</script>",
+      "allowCookies": true
+    }
+  },
+  "sandbox.order": {
+    "props": {
+      "width": "200px",
+      "height": "60px",
+      "initialContent": "<script>console.log('Current orderForm: ', window.props.orderForm)</script>",
       "allowCookies": true
     }
   },
