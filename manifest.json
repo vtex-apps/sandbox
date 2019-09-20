@@ -13,7 +13,8 @@
   },
   "mustUpdateAt": "2019-04-02",
   "dependencies": {
-    "vtex.product-context": "0.x"
+    "vtex.product-context": "0.x",
+    "vtex.store-resources": "0.x"
   },
   "scripts": {
     "postreleasy": "vtex publish --verbose"
