@@ -5,6 +5,7 @@ export interface Props {
   allowCookies?: boolean
   allowStyles?: boolean
   hidden?: boolean
+  [key: string]: any
 }
 
 export const schema = {

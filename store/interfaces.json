@@ -4,5 +4,8 @@
   },
   "sandbox.product": {
     "component": "SandboxProduct"
+  },
+  "sandbox.order": {
+    "component": "SandboxOrder"
   }
 }
