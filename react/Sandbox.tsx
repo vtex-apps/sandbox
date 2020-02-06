@@ -147,7 +147,7 @@ class Sandbox extends Component<Props> {
           ref={this.setRef}
           frameBorder={0}
           style={hidden ? {display: 'none'} : {width, height}}
-          sandbox="allow-scripts allow-forms"
+          sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
           className="vtex-sandbox-iframe"
           hidden={hidden}
           src={`data:text/html,${encodeURIComponent(this.injectedDocument)}`}>
