@@ -147,7 +147,7 @@ class Sandbox extends Component<Props> {
           ref={this.setRef}
           frameBorder={0}
           style={hidden ? {display: 'none'} : {width, height}}
-          sandbox="allow-scripts allow-forms"
+          sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
           className="vtex-sandbox-iframe"
           hidden={hidden}
           src={`data:text/html,${encodeURIComponent(this.injectedDocument)}`}>
@@ -157,6 +157,8 @@ class Sandbox extends Component<Props> {
   }
 
   private get safeProps () {
+    // We don't use this vars because we are interested in the `rest`
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {runtime, iframeRef, initialContent, allowCookies, height, width, treePath, ...rest} = this.props as any
     return stringify(rest)
   }
