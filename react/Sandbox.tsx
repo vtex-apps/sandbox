@@ -150,7 +150,7 @@ class Sandbox extends Component<Props> {
           sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
           className="vtex-sandbox-iframe"
           hidden={hidden}
-          src={`data:text/html,${encodeURIComponent(this.injectedDocument)}`}>
+          src={`data:text/html;charset=UTF-8,${encodeURIComponent(this.injectedDocument)}`}>
         </iframe>
       </NoSSR>
     )
