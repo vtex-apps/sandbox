@@ -4,7 +4,7 @@ Allows mounting arbitrary HTML content in extension points from the comfort and 
 
 ### Example block
 
-```
+```json
   "sandbox.product": {
     "props": {
       "width": "200px",
