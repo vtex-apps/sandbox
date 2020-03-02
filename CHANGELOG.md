@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Allow sandbox's inframe to read UTF-8.
 
+## [0.4.1] - 2020-02-28
+
 ## [0.4.0] - 2020-02-07
 ### Added
 - Allow sandbox's iframe to open a new window.
