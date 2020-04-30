@@ -7,8 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Fixed
-- Allow sandbox's to manipulate its parent frame
+### Added
+- [`allow-top-navigation`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) to `sandbox` attribute.
 
 ## [0.4.2] - 2020-03-03
 ### Added
