@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- Allow sandbox's to manipulate its parent frame
+
 ## [0.4.2] - 2020-03-03
 ### Added
 - Allow sandbox's inframe to read UTF-8.
