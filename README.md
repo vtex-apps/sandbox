@@ -8,7 +8,7 @@ To use this app, you need to import in your dependencies on `manifest.json`.
 
 ```json
   "dependencies": {
-    "vtex.store-components": "3.x"
+    "vtex.sandbox": "0.x"
   }
 ```
 
