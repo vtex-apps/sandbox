@@ -2,6 +2,16 @@
 
 Allows mounting arbitrary HTML content in extension points from the comfort and safety of an iframe.
 
+## Usage
+
+To use this app, you need to include it in your `manifest.json` dependencies.
+
+```json
+  "dependencies": {
+    "vtex.sandbox": "0.x"
+  }
+```
+
 ### Example block
 
 ```
