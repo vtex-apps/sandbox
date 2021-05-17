@@ -2,6 +2,16 @@
 
 Allows mounting arbitrary HTML content in extension points from the comfort and safety of an iframe.
 
+## Usage
+
+To use this app, you need to import in your dependencies on `manifest.json`.
+
+```json
+  "dependencies": {
+    "vtex.store-components": "3.x"
+  }
+```
+
 ### Example block
 
 ```
