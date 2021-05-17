@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "sandbox",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "title": "IO Sandbox Component",
   "description": "IO Sandbox component",
   "defaultLocale": "pt-BR",
