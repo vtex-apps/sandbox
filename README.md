@@ -4,7 +4,7 @@ Allows mounting arbitrary HTML content in extension points from the comfort and 
 
 ## Usage
 
-To use this app, you need to import in your dependencies on `manifest.json`.
+To use this app, you need to include it in your `manifest.json` dependencies.
 
 ```json
   "dependencies": {
