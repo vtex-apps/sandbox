@@ -1,0 +1,12 @@
+{
+  "admin/editor.sandbox.title": "Sandbox",
+  "admin/editor.sandbox.description": "A sandbox component that renders HTML content inside a secure iframe",
+  "admin/editor.sandbox.initialContent.title": "Initial content HTML",
+  "admin/editor.sandbox.initialContent.description": "Any valid HTML. May include scripts. The props passed to this block are available in `window.props`.",
+  "admin/editor.sandbox.width.title": "Width",
+  "admin/editor.sandbox.width.description": "Iframe width (e.g. `400px`)",
+  "admin/editor.sandbox.height.title": "Height",
+  "admin/editor.sandbox.height.description": "Iframe height (e.g. `20px`)",
+  "admin/editor.sandbox.allowCookies.title": "Allow cookies",
+  "admin/editor.sandbox.allowCookies.description": "Allow scripts in iframe to read and write cookies"
+}
